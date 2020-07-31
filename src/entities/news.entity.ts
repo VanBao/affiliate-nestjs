@@ -41,6 +41,6 @@ export class NewsEntity extends BaseEntity {
     created_at: Date;
 
     @UpdateDateColumn()
-    updated_at
+    updated_at: Date;
 }
 
