@@ -36,6 +36,21 @@ export class TrainingPostEntity extends BaseEntity {
     @Column({type: "tinyint"})
     status: number;
 
+    @Column({type: 'tinyint'})
+    hot: number;
+
+    @Column({type: "datetime"})
+    begin_date: Date;
+
+    @Column({type: "varchar", length: "255"})
+    address: string;
+
+    @Column({type: "float"})
+    price: number;
+
+    @Column({type: "varchar", length: "3"})
+    currency: string;
+
     @Column({type: "text"})
     find_raw: string;
 

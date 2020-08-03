@@ -1,12 +1,14 @@
-import {PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, BeforeInsert, BeforeUpdate } from 'typeorm';
+import {PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, BeforeInsert, BeforeUpdate, OneToMany } from 'typeorm';
 import * as slugify from 'slug';
 import {Exclude} from 'class-transformer';
+import { TrainingPostEntity } from './training-post';
 
 
 @Entity('training_category')
 export class TrainingCategoryEntity extends BaseEntity {
 
     @PrimaryGeneratedColumn('increment')
+    @OneToMany(type => TrainingPostEntity, post => post.training_category_id)
     id: number;
 
     @Column({type: "int"})
@@ -43,7 +45,7 @@ export class TrainingCategoryEntity extends BaseEntity {
     @BeforeInsert()
     @BeforeUpdate()
     generateFindraw(){
-        this.find_raw = (this.title ? this.title + '-' : '') + (this.content ? this.content + '-' : '') + (this.title ? slugify(this.title) + '-' : '') +  (this.content ? slugify(this.content) + '-' : '');
+        this.find_raw = (this.title ? this.title + '-' : '') + (this.summary ? this.summary + '-' : '') + (this.content ? this.content + '-' : '') + (this.title ? slugify(this.title) + '-' : '') + (this.summary ? slugify(this.summary) + '-' : '')  +  (this.content ? slugify(this.content) + '-' : '');
     }
 }
 

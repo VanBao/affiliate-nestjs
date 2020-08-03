@@ -1,8 +1,8 @@
 import {PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, BeforeInsert } from 'typeorm';
 import * as slugify from 'slug';
 
-@Entity('users')
-export class UserEntity extends BaseEntity {
+@Entity('country')
+export class CountryEnity extends BaseEntity {
     @PrimaryGeneratedColumn('increment')
     id: number;
 
