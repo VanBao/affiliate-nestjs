@@ -1,46 +1,56 @@
-import {PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity } from 'typeorm';
+import {PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, BeforeInsert, BeforeUpdate } from 'typeorm';
+import * as slugify from 'slug';
+import {Exclude} from 'class-transformer';
 
 
 @Entity('news')
 export class NewsEntity extends BaseEntity {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('increment')
     id: number;
 
-    @Column()
+    @Column({type: "int"})
+    @Exclude()
     owner: number;
 
-    @Column()
+    @Column({type: "int"})
+    // @ManyToOne(type => NewsCategoryEntity, category => category.id)
     category: number;
 
-    @Column()
+    @Column({type: "varchar", length: 255})
     title: string;
 
-    @Column()
+    @Column({type: "int"})
     writer: number;
 
-    @Column()
+    @Column({type: "varchar", length: 255})
     image: string;
 
-    @Column()
+    @Column({type: "text"})
     content: string;
 
-    @Column()
+    @Column({type: "varchar", length: 3})
     language: string;
 
-    @Column()
+    @Column({type: "boolean"})
     hot: number;
 
-    @Column()
+    @Column({type: "tinyint"})
     status: number;
 
-    @Column()
+    @Column({type: "text"})
     find_raw: string;
 
-    @CreateDateColumn()
+    @CreateDateColumn({type: "datetime"})
     created_at: Date;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({type: "datetime"})
     updated_at: Date;
+
+    @BeforeInsert()
+    @BeforeUpdate()
+    generateFindraw(){
+        this.find_raw = (this.title ? this.title + '-' : '') + (this.content ? this.content + '-' : '') + (this.title ? slugify(this.title) + '-' : '') +  (this.content ? slugify(this.content) + '-' : '');
+    }
 }
 

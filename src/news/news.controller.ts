@@ -1,19 +1,30 @@
+import { UpdateNewsDTO } from './../dto/news.dto';
 import { NewsEntity } from 'src/entities/news.entity';
-import { ListNews, CreateNewsDTO } from './../model/news.dto';
+import { ListNewsDTO, CreateNewsDTO } from '../dto/news.dto';
 import { NewsService } from './news.service';
-import { Controller, Get, Query, Post, Body, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body, ValidationPipe, Put, Delete, Param, ParseIntPipe } from '@nestjs/common';
 @Controller('news')
 export class NewsController {
     constructor(private newsService:NewsService){}
-
-    @Get()
-    async listNews(@Query() query: ListNews): Promise<NewsEntity[]>{
-        let listNews = this.newsService.listNews(query);
+    @Get('/list')
+    async listNews(@Query() query: ListNewsDTO): Promise<NewsEntity[]>{
+        let listNews = await this.newsService.listNews(query);
         return listNews;
     }
-    @Post()
-    async create(@Body(ValidationPipe) createNewsDTO:CreateNewsDTO):Promise<any>{
-        //this.newsService.createNews(createNewsDTO);
-        return this.newsService.createNews(createNewsDTO);;
+    @Post('/create')
+    async create(@Body() createNewsDTO: CreateNewsDTO):Promise<any>{
+        let result = await this.newsService.createNews(createNewsDTO);
+        return result;
+    }
+    @Put('/update/:id')
+    async update(@Param('id', ParseIntPipe) id: number, @Body() updateNewsDTO: UpdateNewsDTO): Promise<any>{
+        let result = await this.newsService.updateNews(id, updateNewsDTO);
+        return {result};
+    }
+
+    @Delete('/delete/:id')
+    async delete(@Param('id', ParseIntPipe) id: number):Promise<any>{
+        let result = await this.newsService.deleteNews(id);
+        return {result};
     }
 }
