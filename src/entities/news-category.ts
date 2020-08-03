@@ -1,12 +1,11 @@
-import { NewsEntity } from 'src/entities/news.entity';
-import {PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, OneToMany, BeforeInsert } from 'typeorm';
+import {PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, OneToMany, BeforeInsert, BeforeUpdate } from 'typeorm';
 import * as slugify from 'slug';
 
 @Entity('news_category')
 export class NewsCategoryEntity extends BaseEntity {
 
     @PrimaryGeneratedColumn('increment')
-    @OneToMany(type => NewsEntity, news => news.category)
+    //@OneToMany(type => NewsEntity, news => news.category)
     id: number;
 
     @Column({type: "int"})
@@ -37,6 +36,7 @@ export class NewsCategoryEntity extends BaseEntity {
     updated_at: Date;
 
     @BeforeInsert()
+    @BeforeUpdate()
     generateFindraw(){
         this.find_raw = this.title + '-' + this.summary + '-' + slugify(this.title) + '-' + slugify(this.summary);
     }
