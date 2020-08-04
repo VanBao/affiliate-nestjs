@@ -1,7 +1,7 @@
-import {PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, BeforeInsert, BeforeUpdate, OneToMany, ManyToOne } from 'typeorm';
+import {PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, BeforeInsert, BeforeUpdate, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
 import * as slugify from 'slug';
 import {Exclude} from 'class-transformer';
-import { TrainingCategoryEntity } from './training-category';
+import { TrainingCategoryEntity } from './training-category.entity';
 
 
 @Entity('training_post')
@@ -15,8 +15,11 @@ export class TrainingPostEntity extends BaseEntity {
     owner: number;
 
     @Column({type: "int"})
-    @ManyToOne(type => TrainingCategoryEntity, training_category => training_category.id)
-    training_category_id: number;
+    @ManyToOne(type => TrainingCategoryEntity, category => category.id, {
+        onDelete: 'CASCADE'
+    })
+    @JoinColumn({name: 'training_category'})
+    training_category: number;
 
     @Column({type: "varchar", length: 255})
     title: string;

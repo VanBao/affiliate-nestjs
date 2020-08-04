@@ -1,9 +1,9 @@
-import {PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, BeforeInsert, BeforeUpdate, OneToMany, ManyToOne, OneToOne } from 'typeorm';
+import {PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, BeforeInsert, BeforeUpdate, OneToMany, ManyToOne, OneToOne, JoinColumn } from 'typeorm';
 import * as slugify from 'slug';
 import {Exclude} from 'class-transformer';
-import { TrainingCategoryEntity } from './training-category';
-import { TrainingPostEntity } from './training-post';
-import { UserEntity } from './user';
+import { TrainingCategoryEntity } from './training-category.entity';
+import { TrainingPostEntity } from './training-post.entity';
+import { UserEntity } from './user.entity';
 
 
 @Entity('training_request')
@@ -17,16 +17,25 @@ export class TrainingRequestEntity extends BaseEntity {
     owner: number;
 
     @Column({type: "int"})
-    @OneToOne(type => UserEntity, user => user.id)
+    @OneToOne(type => UserEntity, user => user.id, {
+        cascade: true
+    })
+    @JoinColumn({name: "uid"})
     uid: number;
 
     @Column({type: "int"})
-    @ManyToOne(type => TrainingCategoryEntity, training_category => training_category.id)
-    training_category_id: number;
+    @ManyToOne(type => TrainingCategoryEntity, training_category => training_category.id, {
+        onDelete: 'CASCADE'
+    })
+    @JoinColumn({name: "training_category"})
+    training_category: number;
 
     @Column({type: "int"})
-    @ManyToOne(type => TrainingPostEntity, training_post => training_post.id)
-    traing_post_id: number
+    @ManyToOne(type => TrainingPostEntity, training_post => training_post.id, {
+        onDelete: 'CASCADE'
+    })
+    @JoinColumn({name: "training_post"})
+    traing_post: number
 
     @Column({type: "varchar", length: 255})
     name: string;

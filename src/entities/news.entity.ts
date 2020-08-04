@@ -1,4 +1,5 @@
-import {PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, BeforeInsert, BeforeUpdate } from 'typeorm';
+import { NewsCategoryEntity } from './news-category.entity';
+import {PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, BeforeInsert, BeforeUpdate, ManyToOne, JoinColumn } from 'typeorm';
 import * as slugify from 'slug';
 import {Exclude} from 'class-transformer';
 
@@ -14,7 +15,10 @@ export class NewsEntity extends BaseEntity {
     owner: number;
 
     @Column({type: "int"})
-    // @ManyToOne(type => NewsCategoryEntity, category => category.id)
+    @ManyToOne(type => NewsCategoryEntity, category => category.id, {
+        onDelete: 'CASCADE'
+    })
+    @JoinColumn({name: 'category'})
     category: number;
 
     @Column({type: "varchar", length: 255})

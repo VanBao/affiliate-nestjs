@@ -1,8 +1,8 @@
 import { UpdateNewsDTO } from './../dto/news.dto';
-import { NewsEntity } from 'src/entities/news.entity';
+import { NewsEntity } from '../entities/news.entity';
 import { ListNewsDTO, CreateNewsDTO } from '../dto/news.dto';
 import { NewsService } from './news.service';
-import { Controller, Get, Query, Post, Body, ValidationPipe, Put, Delete, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body, Put, Delete, Param, ParseIntPipe } from '@nestjs/common';
 @Controller('news')
 export class NewsController {
     constructor(private newsService:NewsService){}

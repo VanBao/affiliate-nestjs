@@ -1,5 +1,5 @@
 import { ListNewsDTO, CreateNewsDTO, UpdateNewsDTO } from '../dto/news.dto';
-import { NewsEntity } from './../entities/news.entity';
+import { NewsEntity } from '../entities/news.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';

@@ -1,14 +1,18 @@
-import {PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, BeforeInsert, BeforeUpdate, OneToMany } from 'typeorm';
+import {PrimaryGeneratedColumn, Entity, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, BeforeInsert, BeforeUpdate, OneToMany, JoinColumn } from 'typeorm';
 import * as slugify from 'slug';
 import {Exclude} from 'class-transformer';
-import { TrainingPostEntity } from './training-post';
+import { TrainingPostEntity } from './training-post.entity';
+import { type } from 'os';
 
 
 @Entity('training_category')
 export class TrainingCategoryEntity extends BaseEntity {
 
     @PrimaryGeneratedColumn('increment')
-    @OneToMany(type => TrainingPostEntity, post => post.training_category_id)
+    @OneToMany(type=>TrainingPostEntity, training_post => training_post.training_category, {
+        cascade: true
+    })
+    @JoinColumn()
     id: number;
 
     @Column({type: "int"})
